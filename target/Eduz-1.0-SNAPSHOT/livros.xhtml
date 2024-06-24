@@ -1,0 +1,68 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+        <title>Eduz</title>
+    </h:head>
+    <h:body>
+        <h:form>
+            <p:growl id="growl"/>
+            <nav>
+                <h:graphicImage url="https://cdn-icons-png.flaticon.com/512/14/14184.png" height="60" width="60"/>
+                <h:outputLabel value="Eduz"/>
+            </nav>
+            <div id="div3" style="background-color: background" >
+                <p:menubar autoDisplay="false" >
+                    <p:menuitem value="Home" icon="pi pi-home" url="index.xhtml"/>
+                    <p:submenu label="Livros" icon="pi pi-book">
+                        <p:menuitem value="Cadastrar" url="livros.xhtml"/>
+                        <p:menuitem value="Pesquisar" url="pesquisarlivro.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Alunos" icon="pi pi-users">
+                        <p:menuitem value="Cadastrar" url="alunos.xhtml"/>
+                        <p:menuitem value="Pesquisar" url="pesquisaraluno.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Empréstimos" icon="pi pi-database">
+                        <p:menuitem value="Novo" url="emprestimo.xhtml"/>
+                        <p:menuitem value="Devolução" url="devolucao.xhtml"/>
+                        <p:menuitem value="Consultar" url="consultar.xhtml"/>
+                    </p:submenu>
+                    <p:menuitem value="Sobre" icon="pi pi-info"/>
+                </p:menubar>
+            </div><!-- Fechamento div3 -->
+            
+            <p:panel header="Cadastro de Livros" style="padding: 10px">
+                <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3">
+                    <p:outputLabel value="Matrícula"/>
+                    <p:inputText size="11" value="#{managerLivro.livro.codigoIsbn}"/>
+                    <p:outputLabel value="Título"/>
+                    <p:inputText size="40" value="#{managerLivro.livro.titulo}" required="true" requiredMessage="Título é obrigatório"/>
+                    <p:outputLabel value="Autor"/>
+                    <p:inputText size="50" value="#{managerLivro.livro.autor}"/>
+                    <p:outputLabel value="Editora"/>
+                    <p:selectOneMenu value="#{managerLivro.livro.editora}" id="editora">
+                        <f:selectItem itemLabel="Editora" itemValue=""/>
+                        <f:selectItems value="#{managerLivro.editora}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Ano"/>
+                    <p:inputText size="4" value="#{managerLivro.livro.ano}"/>
+                    <p:outputLabel value="Gênero"/>
+                    <p:selectOneMenu value="#{managerLivro.livro.genero}" id="genero">
+                        <f:selectItem itemLabel="Gênero" itemValue=""/>
+                        <f:selectItems value="#{managerLivro.genero}"/>
+                    </p:selectOneMenu>
+                    <p:outputLabel value="Quantidade"/>
+                    <p:inputNumber value="#{managerLivro.livro.qnt}"/>
+                </h:panelGrid>
+                <center><p:commandButton value="Cadastrar" 
+                                         actionListener="#{managerLivro.adicionarLivro()}" 
+                                         update="@form"/></center>
+            </p:panel>
+            
+        </h:form>
+    </h:body>
+</html>

@@ -1,0 +1,102 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+        <title>Eduz</title>
+    </h:head>
+    <h:body>
+        <div class="index">
+        <h:form id="pesquisar">
+            <p:growl id="growl"/>
+            <nav>
+                <h:graphicImage url="https://cdn-icons-png.flaticon.com/512/14/14184.png" height="60" width="60"/>
+                <h:outputLabel value="Eduz"/>
+            </nav>
+            <div id="div3" style="background-color: background" >
+                <p:menubar autoDisplay="false" >
+                    <p:menuitem value="Home" icon="pi pi-home" url="index.xhtml"/>
+                    <p:submenu label="Livros" icon="pi pi-book">
+                        <p:menuitem value="Cadastrar" url="livros.xhtml"/>
+                        <p:menuitem value="Pesquisar" url="pesquisarlivro.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Alunos" icon="pi pi-users">
+                        <p:menuitem value="Cadastrar" url="alunos.xhtml"/>
+                        <p:menuitem value="Pesquisar" url="pesquisaraluno.xhtml"/>
+                    </p:submenu>
+                    <p:submenu label="Empréstimos" icon="pi pi-database">
+                        <p:menuitem value="Novo" url="emprestimo.xhtml"/>
+                        <p:menuitem value="Devolução" url="devolucao.xhtml"/>
+                        <p:menuitem value="Consultar" url="consultar.xhtml"/>
+                    </p:submenu>
+                    <p:menuitem value="Sobre" icon="pi pi-info"/>
+                </p:menubar>
+            </div><!-- Fechamento div3 -->
+            <div id="div4">
+                <center><h2>Pesquisar Aluno</h2>
+                <h:panelGrid columns="4">
+                    <p:outputLabel value="CPF"/>
+                    <p:inputMask mask="999.999.999-99" size="11" value="#{managerAluno.aluno.cpf}"/>
+                    <p:outputLabel value="Nome"/>
+                    <p:inputText value="#{managerAluno.aluno.nome}"/>
+                </h:panelGrid>
+                    
+                <p:commandButton icon="pi pi-search" value="Buscar" update="@form"
+                                 actionListener="#{managerAluno.pesquisar()}"/>
+                </center>
+            </div><!-- Fechamento div4 -->
+            <div id="resultado">
+                <p:dataTable var="aluno" value="#{managerAluno.alunos}"
+                             rows="10" paginator="true">
+                    <p:column headerText="Ações" width="100">
+                        <p:button icon="pi pi-pencil" styleClass="rounded-button ui-button-flat" 
+                                  href="alunos.xhtml?editar=#{aluno.id}"/>
+                        <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat" 
+                                         oncomplete="PF('remover').show()"
+                                         process="@this" update=":remover">
+                            <f:setPropertyActionListener value="#{aluno}" target="#{managerAluno.aluno}"/>
+                        </p:commandButton>
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <p:outputLabel value="#{aluno.nome}"/>
+                    </p:column>
+                    <p:column headerText="CPF">
+                        <p:outputLabel value="#{aluno.cpf}"/>
+                    </p:column>
+                    <p:column headerText="e-mail">
+                        <p:outputLabel value="#{aluno.email}"/>
+                    </p:column>
+                </p:dataTable>
+            </div>
+        </h:form>
+        </div>
+        <p:dialog modal="true" width="400" height="80" widgetVar="remover"
+                  closable="true" draggable="false" resizable="false">
+            <h:form id="remover">
+                <p:growl id="growl2"/>
+                <center>
+                    <h:outputText value="Remover #{managerAluno.aluno.nome}"/>
+                    <hr/>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="mb-3">
+                        <p:commandButton value="Sim" icon="pi pi-check"
+                                         action="#{managerAluno.removerAluno()}"
+                                         process="@form" update="@form :pesquisar"
+                                         />
+                        <p:commandButton value="Não" icon="pi pi-times"
+                                         onclick="PF('remover').close()"/>
+                    </h:panelGrid>
+                </center>
+            </h:form>
+        </p:dialog>
+        <p:dialog modal="true" width="400" height="80" widgetVar="atualizar"
+                  closable="true" draggable="false" resizable="false">
+            <h:form id="atualizar">
+                <p:growl id="growl2"/>
+                
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>

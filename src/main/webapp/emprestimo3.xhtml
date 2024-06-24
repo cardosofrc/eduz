@@ -1,0 +1,116 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+        <title>Eduz</title>
+    </h:head>
+    <h:body>
+        <div class="index">
+            <h:form>
+                <p:growl id="growl"/>
+                <nav>
+                    <h:graphicImage url="https://cdn-icons-png.flaticon.com/512/14/14184.png" height="60" width="60"/>
+                    <h:outputLabel value="Eduz"/>
+                </nav>
+                <div id="div3" style="background-color: background" >
+                    <p:menubar autoDisplay="false" >
+                        <p:menuitem value="Home" icon="pi pi-home" url="index.xhtml"/>
+                        <p:submenu label="Livros" icon="pi pi-book">
+                            <p:menuitem value="Cadastrar" url="livros.xhtml"/>
+                            <p:menuitem value="Pesquisar" url="pesquisarlivro.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Alunos" icon="pi pi-users">
+                            <p:menuitem value="Cadastrar" url="alunos.xhtml"/>
+                            <p:menuitem value="Pesquisar" url="pesquisaraluno.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Empréstimos" icon="pi pi-database">
+                            <p:menuitem value="Novo" url="emprestimo.xhtml"/>
+                            <p:menuitem value="Devolução" url="devolucao.xhtml"/>
+                            <p:menuitem value="Consultar" url="consultar.xhtml"/>
+                        </p:submenu>
+                        <p:menuitem value="Sobre" icon="pi pi-info"/>
+                    </p:menubar>
+                </div><!-- Fechamento div3 -->
+                <center><h2>Empréstimos</h2>
+                    <h:panelGrid columns="2" cellpadding="5" styleClass="mb-3">
+
+                        <p:outputLabel value="Aluno"/>
+                        <h:panelGroup>
+                            <h:outputText/>
+
+                            <p:commandButton icon="pi pi-search" title="Pesquisar"
+                                             oncomplete="PF('buscarAluno').show()"
+                                             process="@this"/>
+                        </h:panelGroup>
+                    </h:panelGrid>
+                    <h:panelGrid columns="4" cellpadding="4" styleClass="mb3">
+                        <p:outputLabel /><!-- comment -->
+                    </h:panelGrid>
+
+                    <p:panel header="Livros">
+                        <h:panelGrid columns="4" cellpadding="7" styleClass="mb-3">
+                            <p:outputLabel value="Título"/>
+                            <p:autoComplete size="40" />
+                            <p:outputLabel value="Autor"/>
+                            <p:autoComplete size="50" />
+
+                        </h:panelGrid>
+                        <p:commandButton value="Adicionar"/>
+                    </p:panel>
+                    <p:dataTable var="livros" paginator="true" rows="5">
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton icon="pi pi-pencil" styleClass="rounded-button ui-button-flat" />
+                            <p:commandButton icon="pi pi-times" styleClass="rounded-button ui-button-danger ui-button-flat" 
+                                             />
+                        </p:column>
+                        <p:column headerText="Título">
+
+                        </p:column>
+                        <p:column headerText="Autor">
+
+                        </p:column>
+                        <p:column headerText="Editora">
+
+                        </p:column>
+                    </p:dataTable>
+                    <p:commandButton value="Salvar"/>
+                </center>
+            </h:form>
+        </div>
+        <p:dialog modal="true" width="600" height="400" widgetVar="buscarAluno"
+                  closable="true" draggable="false" resizable="false"
+                  header="Selecionar aluno">
+            <h:form>
+                <div id="div4">
+                    <center>
+                        <h:panelGrid columns="4">
+                            <p:outputLabel value="Nome"/>
+                            <p:inputText size="40" value="#{managerAluno.aluno.nome}"/>
+                            <p:commandButton icon="pi pi-search" value="Buscar" update="@form"
+                                             actionListener="#{managerAluno.pesquisar()}"/>
+                        </h:panelGrid>
+                    </center>
+                </div><!-- Fechamento div4 -->
+                <div id="resultado">
+                    <p:dataTable var="aluno" value="#{managerAluno.alunos}"
+                                 rows="10" paginator="true">
+                        <p:column headerText="Ações" width="100">
+                            <p:commandButton icon="pi pi-check" styleClass="rounded-button ui-button-success ui-button-flat" 
+                                             oncomplete="PF('buscarAluno').close()"
+                                             process="@this"/>
+                        </p:column>
+                        <p:column headerText="Nome">
+                            <p:outputLabel value="#{aluno.nome}"/>
+                        </p:column>
+                        <p:column headerText="CPF">
+                            <p:outputLabel value="#{aluno.cpf}"/>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+        </p:dialog>
+    </h:body>
+</html>

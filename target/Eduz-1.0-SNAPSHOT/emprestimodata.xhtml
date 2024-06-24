@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+    <h:head>
+        <link rel="stylesheet" href="assets/css/style.css"/>
+        <title>Eduz</title>
+    </h:head>
+    <h:body>
+        <div class="index">
+            <h:form>
+                <p:growl id="growl"/>
+                <nav>
+                    <h:graphicImage url="https://cdn-icons-png.flaticon.com/512/14/14184.png" height="60" width="60"/>
+                    <h:outputLabel value="Eduz"/>
+                </nav>
+                <div id="div3" style="background-color: background" >
+                    <p:menubar autoDisplay="false" >
+                        <p:menuitem value="Home" icon="pi pi-home" url="index.xhtml"/>
+                        <p:submenu label="Livros" icon="pi pi-book">
+                            <p:menuitem value="Cadastrar" url="livros.xhtml"/>
+                            <p:menuitem value="Pesquisar" url="pesquisarlivro.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Alunos" icon="pi pi-users">
+                            <p:menuitem value="Cadastrar" url="alunos.xhtml"/>
+                            <p:menuitem value="Pesquisar" url="pesquisaraluno.xhtml"/>
+                        </p:submenu>
+                        <p:submenu label="Empréstimos" icon="pi pi-database">
+                            <p:menuitem value="Novo" url="emprestimo.xhtml"/>
+                            <p:menuitem value="Devolução" url="devolucao.xhtml"/>
+                            <p:menuitem value="Consultar" url="consultar.xhtml"/>
+                        </p:submenu>
+                        <p:menuitem value="Sobre" icon="pi pi-info"/>
+                    </p:menubar>
+                </div><!-- Fechamento div3 -->
+                <div id="div4">
+                    <center><h2>Empréstimos</h2>
+                        <h:panelGrid columns="2">
+                            <p:outputLabel value="Aluno"/>
+                            <p:datePicker value="#{managerEmprestimo.emprestimo.dataPrevista}"/>
+                        </h:panelGrid>
+                        <p:commandButton icon="pi pi-search" value="Buscar" update="@form"
+                                         actionListener="#{managerEmprestimo.pesquisarData()}"/>
+                    </center>
+                </div><!-- Fechamento div4 -->
+                <div id="resultado">
+                    <p:dataTable var="emprestimo" value="#{managerEmprestimo.emprestimos}">
+                        <p:column headerText="Ações" width="200">
+                            <p:commandButton type="button" value="Devolver"
+                                             styleClass="ui-button-raised ui-button-success ui-button-flat"/>
+                            <p:commandButton type="button" value="Renovar" 
+                                             styleClass="ui-button-raised ui-button-danger ui-button-flat" />
+                        </p:column>
+                        <p:column headerText="Aluno" width="350">
+                            <p:outputLabel value="#{emprestimo.aluno.nome}"/>
+                        </p:column>   
+                        <p:column headerText="Data de devolução" width="150">
+                            <p:outputLabel value="#{emprestimo.dataDeDevolucao}">
+                                <f:convertDateTime pattern="dd/MM/yyyy"/>
+                            </p:outputLabel>
+                        </p:column>
+                        <p:column headerText="Livros">
+                            <p:dataList var="livro" value="#{emprestimo.livros}">
+                                
+                                    <p:outputLabel value="#{livro.titulo}"/>
+                                
+                            </p:dataList>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+
+            <!-- Dialog para os detalhes do Emprestimo do aluno -->
+            <p:dialog height="300" width="400" header="Devolução" widgetVar="devolucao"
+                      closable="true" draggable="false" 
+                      modal="true" resizable="false">
+                <h:form id="devolucao">
+                    
+                </h:form>
+            </p:dialog>
+        </div>
+        <footer>Criado por Neto Cardoso</footer>
+    </h:body>
+</html>
